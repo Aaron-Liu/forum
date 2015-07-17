@@ -17,6 +17,7 @@ namespace Forum.Web.Controllers
         private readonly ICommandService _commandService;
         private readonly IAccountQueryService _queryService;
 
+        // IOC 利用Autofac在程序初始化时就将类型注入到容器中，Controller实例化的时候会自动获取
         public AccountController(IAuthenticationService authenticationService, ICommandService commandService, IAccountQueryService queryService)
         {
             _authenticationService = authenticationService;
