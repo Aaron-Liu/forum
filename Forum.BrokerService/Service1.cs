@@ -1,84 +1,22 @@
-﻿using System;
-using System.ServiceProcess;
-using ECommon.Autofac;
-using ECommon.Components;
-using ECommon.Configurations;
-using ECommon.JsonNet;
-using ECommon.Log4Net;
-using ECommon.Logging;
-using EQueue.Broker;
-using EQueue.Configurations;
-using Forum.Infrastructure;
+﻿using System.ServiceProcess;
 
 namespace Forum.BrokerService
 {
     public partial class Service1 : ServiceBase
     {
-        private ILogger _logger;
-        private BrokerController _broker;
-
         public Service1()
         {
             InitializeComponent();
-            InitializeEQueue();
-            _logger = ObjectContainer.Resolve<ILoggerFactory>().Create(GetType().FullName);
-            _logger.Info("Service initialized.");
+            Bootstrap.Initialize();
         }
 
         protected override void OnStart(string[] args)
         {
-            try
-            {
-                _broker.Start();
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex);
-                throw;
-            }
+            Bootstrap.Start();
         }
-
         protected override void OnStop()
         {
-            try
-            {
-                if (_broker != null)
-                {
-                    _broker.Shutdown();
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex);
-                throw;
-            }
-        }
-
-        private void InitializeEQueue()
-        {
-            ConfigSettings.Initialize();
-
-            var messageStoreSetting = new SqlServerMessageStoreSetting
-            {
-                ConnectionString = ConfigSettings.ConnectionString,
-                DeleteMessageHourOfDay = -1
-            };
-            var offsetManagerSetting = new SqlServerOffsetManagerSetting
-            {
-                ConnectionString = ConfigSettings.ConnectionString
-            };
-
-            Configuration
-                .Create()
-                .UseAutofac()
-                .RegisterCommonComponents()
-                .UseLog4Net()
-                .UseJsonNet()
-                .RegisterEQueueComponents()
-                .UseSqlServerMessageStore(messageStoreSetting)
-                .UseSqlServerOffsetManager(offsetManagerSetting);
-
-            _broker = new BrokerController();
+            Bootstrap.Stop();
         }
     }
 }

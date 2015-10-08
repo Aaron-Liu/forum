@@ -4,10 +4,9 @@ using Forum.Infrastructure;
 
 namespace Forum.Domain.Sections
 {
-    [Serializable]
     public class Section : AggregateRoot<string>
     {
-        public string Name { get; private set; }
+        private string _name;
 
         public Section(string id, string name)
             : base(id)
@@ -17,22 +16,22 @@ namespace Forum.Domain.Sections
             {
                 throw new Exception("版块名称长度不能超过128");
             }
-            RaiseEvent(new SectionCreatedEvent(Id, name));
+            ApplyEvent(new SectionCreatedEvent(this, name));
         }
 
         public void ChangeName(string name)
         {
-            RaiseEvent(new SectionNameChangedEvent(Id, name));
+            ApplyEvent(new SectionNameChangedEvent(this, name));
         }
 
         private void Handle(SectionCreatedEvent evnt)
         {
-            Id = evnt.AggregateRootId;
-            Name = evnt.Name;
+            _id = evnt.AggregateRootId;
+            _name = evnt.Name;
         }
         private void Handle(SectionNameChangedEvent evnt)
         {
-            Name = evnt.Name;
+            _name = evnt.Name;
         }
     }
 }

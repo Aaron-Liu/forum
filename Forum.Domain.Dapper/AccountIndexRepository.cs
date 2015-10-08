@@ -7,8 +7,8 @@ using Forum.Infrastructure;
 
 namespace Forum.Domain.Dapper
 {
-    [Component(LifeStyle.Singleton)]
-    public class AccountIndexStore : IAccountIndexStore
+    [Component]
+    public class AccountIndexRepository : IAccountIndexRepository
     {
         public AccountIndex FindByAccountName(string accountName)
         {
@@ -18,9 +18,7 @@ namespace Forum.Domain.Dapper
                 var data = connection.QueryList(new { AccountName = accountName }, Constants.AccountIndexTable).SingleOrDefault();
                 if (data != null)
                 {
-                    var indexId = data.IndexId as string;
-                    var accountId = data.AccountId as string;
-                    return new AccountIndex(indexId, accountId, accountName);
+                    return new AccountIndex(data.AccountId as string, accountName);
                 }
                 return null;
             }
@@ -32,7 +30,6 @@ namespace Forum.Domain.Dapper
                 connection.Open();
                 connection.Insert(new
                 {
-                    IndexId = index.IndexId,
                     AccountId = index.AccountId,
                     AccountName = index.AccountName
                 }, Constants.AccountIndexTable);

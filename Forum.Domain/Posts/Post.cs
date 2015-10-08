@@ -1,18 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using ENode.Domain;
+using Forum.Domain.Replies;
 using Forum.Infrastructure;
 
 namespace Forum.Domain.Posts
 {
     /// <summary>帖子聚合根
     /// </summary>
-    [Serializable]
     public class Post : AggregateRoot<string>
     {
-        public string Subject { get; private set; }
-        public string Body { get; private set; }
-        public string SectionId { get; private set; }
-        public string AuthorId { get; private set; }
+        private string _subject;
+        private string _body;
+        private string _sectionId;
+        private string _authorId;
+        private ISet<string> _replyIds;
+        private PostReplyStatisticInfo _replyStatisticInfo;
 
         public Post(string id, string subject, string body, string sectionId, string authorId)
             : base(id)
@@ -29,7 +32,7 @@ namespace Forum.Domain.Posts
             {
                 throw new Exception("帖子内容长度不能超过1000");
             }
-            RaiseEvent(new PostCreatedEvent(Id, subject, body, sectionId, authorId));
+            ApplyEvent(new PostCreatedEvent(this, subject, body, sectionId, authorId));
         }
 
         public void Update(string subject, string body)
@@ -44,21 +47,55 @@ namespace Forum.Domain.Posts
             {
                 throw new Exception("帖子内容长度不能超过1000");
             }
-            RaiseEvent(new PostUpdatedEvent(Id, subject, body));
+            ApplyEvent(new PostUpdatedEvent(this, subject, body));
+        }
+        public void AcceptNewReply(Reply reply)
+        {
+            if (!_replyIds.Add(reply.Id)) return;
+
+            if (_replyStatisticInfo == null)
+            {
+                ApplyEvent(new PostReplyStatisticInfoChangedEvent(this, new PostReplyStatisticInfo(
+                    reply.Id,
+                    reply.GetAuthorId(),
+                    reply.GetCreateTime(),
+                    1)));
+            }
+            else if (_replyStatisticInfo.LastReplyTime < reply.GetCreateTime())
+            {
+                ApplyEvent(new PostReplyStatisticInfoChangedEvent(this, new PostReplyStatisticInfo(
+                    reply.Id,
+                    reply.GetAuthorId(),
+                    reply.GetCreateTime(),
+                    _replyStatisticInfo.ReplyCount + 1)));
+            }
+            else
+            {
+                ApplyEvent(new PostReplyStatisticInfoChangedEvent(this, new PostReplyStatisticInfo(
+                    _replyStatisticInfo.LastReplyId,
+                    _replyStatisticInfo.LastReplyAuthorId,
+                    _replyStatisticInfo.LastReplyTime,
+                    _replyStatisticInfo.ReplyCount + 1)));
+            }
         }
 
         private void Handle(PostCreatedEvent evnt)
         {
-            Id = evnt.AggregateRootId;
-            Subject = evnt.Subject;
-            Body = evnt.Body;
-            SectionId = evnt.SectionId;
-            AuthorId = evnt.AuthorId;
+            _replyIds = new HashSet<string>();
+            _id = evnt.AggregateRootId;
+            _subject = evnt.Subject;
+            _body = evnt.Body;
+            _sectionId = evnt.SectionId;
+            _authorId = evnt.AuthorId;
         }
         private void Handle(PostUpdatedEvent evnt)
         {
-            Subject = evnt.Subject;
-            Body = evnt.Body;
+            _subject = evnt.Subject;
+            _body = evnt.Body;
+        }
+        private void Handle(PostReplyStatisticInfoChangedEvent evnt)
+        {
+            _replyStatisticInfo = evnt.StatisticInfo;
         }
     }
 }

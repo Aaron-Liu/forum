@@ -3,14 +3,14 @@ using ENode.Eventing;
 
 namespace Forum.Domain.Accounts
 {
-    [Serializable]
     public class NewAccountRegisteredEvent : DomainEvent<string>
     {
         public string Name { get; private set; }
         public string Password { get; private set; }
 
-        public NewAccountRegisteredEvent(string accountId, string name, string password)
-            : base(accountId)
+        private NewAccountRegisteredEvent() { }
+        public NewAccountRegisteredEvent(Account account, string name, string password)
+            : base(account)
         {
             Name = name;
             Password = password;

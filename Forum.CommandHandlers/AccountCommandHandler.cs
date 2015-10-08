@@ -6,7 +6,7 @@ using Forum.Domain.Accounts;
 
 namespace Forum.CommandHandlers
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class AccountCommandHandler :
         ICommandHandler<RegisterNewAccountCommand>
     {
@@ -23,7 +23,8 @@ namespace Forum.CommandHandlers
         {
             _lockService.ExecuteInLock(typeof(Account).Name, () =>
             {
-                context.Add(_registerAccountService.RegisterNewAccount(command.Id, command.Name, command.Password));
+                _registerAccountService.RegisterAccount(command.AggregateRootId, command.Name);
+                context.Add(new Account(command.AggregateRootId, command.Name, command.Password));
             });
         }
     }

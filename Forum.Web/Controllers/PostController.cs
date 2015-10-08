@@ -3,7 +3,10 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ECommon.IO;
+using ECommon.Utilities;
 using ENode.Commanding;
+using ENode.Infrastructure;
 using Forum.Commands.Posts;
 using Forum.QueryServices;
 using Forum.QueryServices.DTOs;
@@ -67,12 +70,13 @@ namespace Forum.Web.Controllers
         {
             var result = await _commandService.SendAsync(
                 new CreatePostCommand(
+                    ObjectId.GenerateNewStringId(),
                     model.Subject,
                     model.Body,
                     model.SectionId,
                     _contextService.CurrentAccount.AccountId));
 
-            if (result.Status == CommandSendStatus.Failed)
+            if (result.Status != AsyncTaskStatus.Success)
             {
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
             }
@@ -92,7 +96,7 @@ namespace Forum.Web.Controllers
 
             var result = await _commandService.SendAsync(new UpdatePostCommand(model.Id, model.Subject, model.Body));
 
-            if (result.Status == CommandSendStatus.Failed)
+            if (result.Status != AsyncTaskStatus.Success)
             {
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
             }

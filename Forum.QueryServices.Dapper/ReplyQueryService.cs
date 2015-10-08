@@ -6,7 +6,7 @@ using Forum.Infrastructure;
 
 namespace Forum.QueryServices.Dapper
 {
-    [Component(LifeStyle.Singleton)]
+    [Component]
     public class ReplyQueryService : BaseQueryService, IReplyQueryService
     {
         public dynamic FindDynamic(string id, string option)
@@ -15,7 +15,7 @@ namespace Forum.QueryServices.Dapper
             {
                 using (var connection = GetConnection())
                 {
-                    return connection.QueryList(new { Id = id }, Constants.ReplyTable, "id,body,authorId").SingleOrDefault();
+                    return connection.QueryList(new { Id = id }, Constants.ReplyTable, "id,body,postId,parentId,authorId,createdOn").SingleOrDefault();
                 }
             }
             throw new Exception("Invalid find option:" + option);
