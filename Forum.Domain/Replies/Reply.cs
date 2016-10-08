@@ -1,5 +1,6 @@
 ﻿using System;
 using ENode.Domain;
+using ENode.Infrastructure;
 using Forum.Infrastructure;
 
 namespace Forum.Domain.Replies
@@ -20,25 +21,25 @@ namespace Forum.Domain.Replies
             Assert.IsNotNullOrWhiteSpace("被回复的帖子", postId);
             Assert.IsNotNullOrWhiteSpace("回复作者", authorId);
             Assert.IsNotNullOrWhiteSpace("回复内容", body);
-            if (body.Length > 1000)
+            if (body.Length > 4000)
             {
-                throw new Exception("回复内容长度不能超过1000");
+                throw new Exception("回复内容长度不能超过4000");
             }
             if (parent != null && id == parent.Id)
             {
                 throw new ArgumentException(string.Format("回复的parentId不能是当前回复的Id:{0}", id));
             }
-            ApplyEvent(new ReplyCreatedEvent(this, postId, parent == null ? null : parent.Id, authorId, body));
+            ApplyEvent(new ReplyCreatedEvent( postId, parent == null ? null : parent.Id, authorId, body));
         }
 
         public void ChangeBody(string body)
         {
             Assert.IsNotNullOrWhiteSpace("回复内容", body);
-            if (body.Length > 1000)
+            if (body.Length > 4000)
             {
-                throw new Exception("回复内容长度不能超过1000");
+                throw new Exception("回复内容长度不能超过4000");
             }
-            ApplyEvent(new ReplyBodyChangedEvent(this, body));
+            ApplyEvent(new ReplyBodyChangedEvent( body));
         }
         public string GetAuthorId()
         {
@@ -51,7 +52,6 @@ namespace Forum.Domain.Replies
 
         private void Handle(ReplyCreatedEvent evnt)
         {
-            _id = evnt.AggregateRootId;
             _postId = evnt.PostId;
             _parentId = evnt.ParentId;
             _body = evnt.Body;

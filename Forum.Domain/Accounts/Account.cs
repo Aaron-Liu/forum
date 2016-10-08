@@ -1,5 +1,6 @@
 ﻿using System;
 using ENode.Domain;
+using ENode.Infrastructure;
 using Forum.Infrastructure;
 
 namespace Forum.Domain.Accounts
@@ -10,6 +11,15 @@ namespace Forum.Domain.Accounts
     {
         private string _name;
         private string _password;
+
+        public string Name
+        {
+            get { return _name; }
+        }
+        public string Password
+        {
+            get { return _password; }
+        }
 
         public Account(string id, string name, string password)
             : base(id)
@@ -24,12 +34,11 @@ namespace Forum.Domain.Accounts
             {
                 throw new Exception("密码长度不能超过128");
             }
-            ApplyEvent(new NewAccountRegisteredEvent(this, name, password));
+            ApplyEvent(new NewAccountRegisteredEvent( name, password));
         }
 
         private void Handle(NewAccountRegisteredEvent evnt)
         {
-            _id = evnt.AggregateRootId;
             _name = evnt.Name;
             _password = evnt.Password;
         }

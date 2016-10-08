@@ -24,6 +24,7 @@
     <RestorePackages>true</RestorePackages>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,54 +47,39 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+    <Reference Include="Autofac, Version=3.5.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.3.4.0\lib\net40\Autofac.dll</HintPath>
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Integration.Mvc">
-      <HintPath>..\packages\Autofac.Mvc5.3.3.0\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    <Reference Include="Autofac.Integration.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Dapper">
-      <HintPath>..\packages\Dapper.1.38\lib\net45\Dapper.dll</HintPath>
+      <HintPath>..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="ECommon, Version=1.4.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.1.4.9\lib\net45\ECommon.dll</HintPath>
+    <Reference Include="ECommon, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ECommon.2.0.3\lib\net45\ECommon.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="ECommon.Autofac, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ecommon.autofac.1.4.2\lib\net45\ECommon.Autofac.dll</HintPath>
+    <Reference Include="ENode, Version=2.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ENode.2.8.1\lib\net45\ENode.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="ECommon.Dapper, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ECommon.Dapper.1.4.2\lib\net45\ECommon.Dapper.dll</HintPath>
-    </Reference>
-    <Reference Include="ECommon.JsonNet, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ecommon.jsonnet.1.4.2\lib\net45\ECommon.JsonNet.dll</HintPath>
-    </Reference>
-    <Reference Include="ECommon.Log4Net, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ecommon.log4net.1.4.2\lib\net45\ECommon.Log4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="ENode, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ENode.2.6.2\lib\net45\ENode.dll</HintPath>
-    </Reference>
-    <Reference Include="ENode.EQueue, Version=1.6.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\enode.equeue.1.6.6\lib\net45\ENode.EQueue.dll</HintPath>
-    </Reference>
-    <Reference Include="EQueue, Version=1.4.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EQueue.1.4.7\lib\net45\EQueue.dll</HintPath>
+    <Reference Include="EQueue, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EQueue.2.1.1\lib\net45\EQueue.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -113,28 +99,23 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
       <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.0\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.0\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web">
       <Private>True</Private>
@@ -145,14 +126,15 @@
     <Reference Include="System.Web.Routing">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
       <Private>True</Private>
@@ -200,6 +182,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\PostModels.cs" />
+    <Compile Include="Models\SectionAndStatisticModel.cs" />
     <Compile Include="Models\SectionModels.cs" />
     <Compile Include="Models\ReplyModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -208,34 +191,64 @@
     <Compile Include="Services\ContextService.cs" />
     <Compile Include="Services\IAuthenticationService.cs" />
     <Compile Include="Services\IContextService.cs" />
+    <Compile Include="Services\PasswordHash.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\angularjs\angular.min.js" />
-    <Content Include="Content\bootbox\bootbox.js" />
-    <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap\css\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap\css\bootstrap.css" />
-    <Content Include="Content\bootstrap\css\bootstrap.min.css" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\bootstrap\css\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap\css\bootstrap.css.map" />
-    <Content Include="Content\angularjs\angular.min.js.map" />
-    <None Include="Content\jquery\jquery-1.10.2.intellisense.js" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\bootstrap\js\bootstrap.js" />
-    <Content Include="Content\bootstrap\js\bootstrap.min.js" />
-    <Content Include="Content\controllers\login-controller.js" />
-    <Content Include="Content\controllers\section-controller.js" />
-    <Content Include="Content\controllers\register-controller.js" />
-    <Content Include="Content\controllers\post-detail-controller.js" />
-    <Content Include="Content\controllers\post-controller.js" />
+    <None Include="connectionStrings.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Content\css\animate.css" />
+    <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\css\style.css" />
     <Content Include="Content\css\images\logo.png" />
-    <Content Include="Content\jquery\jquery-1.10.2.min.js" />
-    <Content Include="Content\js\site.js" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\libs\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\libs\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\libs\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\libs\bootstrap\js\bootstrap.min.js" />
+    <None Include="Content\libs\jquery\jquery-1.10.2.intellisense.js" />
+    <Content Include="Content\libs\com.js" />
+    <Content Include="Content\libs\jquery\jquery-1.10.2.min.js" />
+    <Content Include="Content\libs\jquery\jquery.form.js" />
+    <Content Include="Content\libs\simditor-2.3.6\images\image.png" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\hotkeys.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\hotkeys.min.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\jquery.min.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\module.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\module.min.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\simditor.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\simditor.min.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\uploader.js" />
+    <Content Include="Content\libs\simditor-2.3.6\scripts\uploader.min.js" />
+    <Content Include="Content\libs\simditor-2.3.6\styles\editor.scss" />
+    <Content Include="Content\libs\simditor-2.3.6\styles\fonticon.scss" />
+    <Content Include="Content\libs\simditor-2.3.6\styles\simditor.css" />
+    <Content Include="Content\libs\simditor-2.3.6\styles\simditor.scss" />
+    <Content Include="Content\libs\toastr\toastr.min.css" />
+    <Content Include="Content\libs\toastr\toastr.min.js" />
+    <Content Include="Content\libs\validate\additional-methods.min.js" />
+    <Content Include="Content\libs\validate\jquery.validate.min.js" />
+    <Content Include="Content\libs\validate\messages_zh.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Post\Create.cshtml" />
+    <Content Include="Views\Post\Detail.cshtml" />
+    <Content Include="Views\Post\Index.cshtml" />
+    <Content Include="Views\Post\Update.cshtml" />
+    <Content Include="Views\Post\_CreateOrUpdate.cshtml" />
+    <Content Include="Views\Section\Index.cshtml" />
+    <Content Include="Views\Shared\_BreadcrupbPartial.cshtml" />
+    <Content Include="Views\Shared\_CommonPartial.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -248,16 +261,12 @@
     <Content Include="Content\css\site.css" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\SectionAdmin\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Post\Index.cshtml" />
-    <Content Include="Views\Post\Detail.cshtml" />
-    <Content Include="Content\jquery\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\TimeoutError.cshtml" />
     <Content Include="Views\Shared\_SimpleLayout.cshtml" />
     <Content Include="log4net.config">
@@ -265,7 +274,12 @@
     </Content>
     <Content Include="Views\Shared\SectionNavbar.cshtml" />
     <Content Include="Views\Shared\NoPermission.cshtml" />
+    <Content Include="Content\libs\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\libs\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\libs\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\libs\jquery\jquery-1.10.2.min.map" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Forum.Commands\Forum.Commands.csproj">
@@ -286,7 +300,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

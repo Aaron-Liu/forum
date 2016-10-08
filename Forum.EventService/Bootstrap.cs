@@ -74,23 +74,19 @@ namespace Forum.EventService
             var assemblies = new[]
             {
                 Assembly.Load("Forum.Infrastructure"),
+                Assembly.Load("Forum.Commands"),
                 Assembly.Load("Forum.Domain"),
                 Assembly.Load("Forum.Denormalizers.Dapper"),
                 Assembly.Load("Forum.ProcessManagers"),
                 Assembly.Load("Forum.EventService")
             };
-            var setting = new ConfigurationSetting
-            {
-                SqlServerDefaultConnectionString = ConfigSettings.ConnectionString
-            };
+            var setting = new ConfigurationSetting(ConfigSettings.ENodeConnectionString);
 
             _enodeConfiguration = _ecommonConfiguration
                 .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .RegisterAllTypeCodes()
-                .UseSqlServerSequenceMessagePublishedVersionStore()
-                .UseSqlServerMessageHandleRecordStore()
+                .UseSqlServerPublishedVersionStore()
                 .UseEQueue()
                 .InitializeBusinessAssemblies(assemblies);
             _logger.Info("ENode initialized.");

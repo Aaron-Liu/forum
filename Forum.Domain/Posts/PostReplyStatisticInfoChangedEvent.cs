@@ -1,5 +1,6 @@
 ﻿using System;
 using ENode.Eventing;
+using ENode.Infrastructure;
 
 namespace Forum.Domain.Posts
 {
@@ -10,8 +11,7 @@ namespace Forum.Domain.Posts
         public PostReplyStatisticInfo StatisticInfo { get; private set; }
 
         private PostReplyStatisticInfoChangedEvent() { }
-        public PostReplyStatisticInfoChangedEvent(Post post, PostReplyStatisticInfo statisticInfo)
-            : base(post)
+        public PostReplyStatisticInfoChangedEvent(PostReplyStatisticInfo statisticInfo)
         {
             StatisticInfo = statisticInfo;
         }

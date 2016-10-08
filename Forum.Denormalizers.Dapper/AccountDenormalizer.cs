@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using ECommon.Components;
 using ECommon.Dapper;
 using ECommon.IO;
 using ENode.Infrastructure;
@@ -8,7 +7,6 @@ using Forum.Infrastructure;
 
 namespace Forum.Denormalizers.Dapper
 {
-    [Component]
     public class AccountDenormalizer : AbstractDenormalizer, IMessageHandler<NewAccountRegisteredEvent>
     {
         public Task<AsyncTaskResult> HandleAsync(NewAccountRegisteredEvent evnt)

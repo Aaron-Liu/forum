@@ -8,10 +8,9 @@ using Forum.Infrastructure;
 
 namespace Forum.Denormalizers.Dapper
 {
-    [Component]
     public class SectionDenormalizer : AbstractDenormalizer,
         IMessageHandler<SectionCreatedEvent>,
-        IMessageHandler<SectionNameChangedEvent>
+        IMessageHandler<SectionChangedEvent>
     {
         public Task<AsyncTaskResult> HandleAsync(SectionCreatedEvent evnt)
         {
@@ -23,11 +22,12 @@ namespace Forum.Denormalizers.Dapper
                     Name = evnt.Name,
                     CreatedOn = evnt.Timestamp,
                     UpdatedOn = evnt.Timestamp,
+                    Description = evnt.Description,
                     Version = evnt.Version
                 }, Constants.SectionTable);
             });
         }
-        public Task<AsyncTaskResult> HandleAsync(SectionNameChangedEvent evnt)
+        public Task<AsyncTaskResult> HandleAsync(SectionChangedEvent evnt)
         {
             return TryUpdateRecordAsync(connection =>
             {
@@ -35,6 +35,7 @@ namespace Forum.Denormalizers.Dapper
                 {
                     Name = evnt.Name,
                     UpdatedOn = evnt.Timestamp,
+                    Description = evnt.Description,
                     Version = evnt.Version
                 }, new
                 {

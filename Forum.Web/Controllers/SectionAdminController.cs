@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using ECommon.IO;
 using ECommon.Utilities;
 using ENode.Commanding;
-using ENode.Infrastructure;
 using Forum.Commands.Sections;
 using Forum.QueryServices;
 using Forum.Web.Extensions;
@@ -20,7 +18,9 @@ namespace Forum.Web.Controllers
         private readonly ISectionQueryService _queryService;
         private readonly IContextService _contextService;
 
-        public SectionAdminController(ICommandService commandService, ISectionQueryService queryService, IContextService contextService)
+        public SectionAdminController(ICommandService commandService
+            , ISectionQueryService queryService
+            , IContextService contextService)
         {
             _commandService = commandService;
             _queryService = queryService;
@@ -58,11 +58,16 @@ namespace Forum.Web.Controllers
                 return Json(new { success = false, errorMsg = "只有系统管理员才能新建版块。" });
             }
 
-            var result = await _commandService.SendAsync(new CreateSectionCommand(ObjectId.GenerateNewStringId(), model.Name));
+            var result = await _commandService.ExecuteAsync(new CreateSectionCommand(ObjectId.GenerateNewStringId(), model.Name, model.Description));
 
             if (result.Status != AsyncTaskStatus.Success)
             {
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
+            }
+            var commandResult = result.Data;
+            if (commandResult.Status == CommandStatus.Failed)
+            {
+                return Json(new { success = false, errorMsg = commandResult.Result });
             }
 
             return Json(new { success = true });
@@ -78,11 +83,16 @@ namespace Forum.Web.Controllers
                 return Json(new { success = false, errorMsg = "只有系统管理员才能修改版块。" });
             }
 
-            var result = await _commandService.SendAsync(new ChangeSectionNameCommand(model.Id, model.Name));
+            var result = await _commandService.ExecuteAsync(new ChangeSectionCommand(model.Id, model.Name, model.Description));
 
             if (result.Status != AsyncTaskStatus.Success)
             {
                 return Json(new { success = false, errorMsg = result.ErrorMessage });
+            }
+            var commandResult = result.Data;
+            if (commandResult.Status == CommandStatus.Failed)
+            {
+                return Json(new { success = false, errorMsg = commandResult.Result });
             }
 
             return Json(new { success = true });

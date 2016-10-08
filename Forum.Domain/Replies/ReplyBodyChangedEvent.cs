@@ -1,5 +1,6 @@
 ﻿using System;
 using ENode.Eventing;
+using ENode.Infrastructure;
 
 namespace Forum.Domain.Replies
 {
@@ -10,7 +11,7 @@ namespace Forum.Domain.Replies
         public string Body { get; private set; }
 
         private ReplyBodyChangedEvent() { }
-        public ReplyBodyChangedEvent(Reply reply, string body) : base(reply)
+        public ReplyBodyChangedEvent( string body) 
         {
             Body = body;
         }

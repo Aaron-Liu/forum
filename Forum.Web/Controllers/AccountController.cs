@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ECommon.IO;
 using ECommon.Utilities;
 using ENode.Commanding;
 using Forum.Commands.Accounts;
@@ -18,7 +19,9 @@ namespace Forum.Web.Controllers
         private readonly ICommandService _commandService;
         private readonly IAccountQueryService _queryService;
 
-        public AccountController(IAuthenticationService authenticationService, ICommandService commandService, IAccountQueryService queryService)
+        public AccountController(IAuthenticationService authenticationService
+            , ICommandService commandService
+            , IAccountQueryService queryService)
         {
             _authenticationService = authenticationService;
             _commandService = commandService;
@@ -35,15 +38,21 @@ namespace Forum.Web.Controllers
         [AsyncTimeout(5000)]
         public async Task<ActionResult> Register(RegisterModel model, CancellationToken token)
         {
-            var result = await _commandService.ExecuteAsync(new RegisterNewAccountCommand(ObjectId.GenerateNewStringId(), model.AccountName, model.Password), CommandReturnType.EventHandled);
+            string pwd = PasswordHash.PasswordHash.CreateHash(model.Password);
+            var result = await _commandService.ExecuteAsync(new RegisterNewAccountCommand(ObjectId.GenerateNewStringId(), model.AccountName, pwd), CommandReturnType.EventHandled);
+            if (result.Status != AsyncTaskStatus.Success)
+            {
+                return Json(new { success = false, errorMsg = result.ErrorMessage });
+            }
+
             var commandResult = result.Data;
             if (commandResult.Status == CommandStatus.Failed)
             {
-                if (commandResult.ExceptionTypeName == typeof(DuplicateAccountException).Name)
+                if (commandResult.ResultType == typeof(DuplicateAccountException).Name)
                 {
                     return Json(new { success = false, errorMsg = "该账号已被注册，请用其他账号注册。" });
                 }
-                return Json(new { success = false, errorMsg = result.ErrorMessage });
+                return Json(new { success = false, errorMsg = commandResult.Result });
             }
 
             _authenticationService.SignIn(commandResult.AggregateRootId, model.AccountName, false);
@@ -53,7 +62,7 @@ namespace Forum.Web.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View(new LoginModel());
         }
         [HttpPost]
         [AjaxValidateAntiForgeryToken]
@@ -66,7 +75,7 @@ namespace Forum.Web.Controllers
             {
                 return Json(new { success = false, errorMsg = "账号不存在。" });
             }
-            else if (account.Password != model.Password)
+            else if (!PasswordHash.PasswordHash.ValidatePassword(model.Password, account.Password))
             {
                 return Json(new { success = false, errorMsg = "密码不正确。" });
             }
@@ -75,21 +84,11 @@ namespace Forum.Web.Controllers
 
             return Json(new { success = true });
         }
-        [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
         public ActionResult LogOff()
         {
             _authenticationService.SignOut();
-            return RedirectToAction("Index", "Home");
-        }
-
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
             return RedirectToAction("Index", "Home");
         }
     }

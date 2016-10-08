@@ -1,5 +1,6 @@
 ﻿using System;
 using ENode.Commanding;
+using ENode.Infrastructure;
 
 namespace Forum.Commands.Accounts
 {

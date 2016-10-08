@@ -1,5 +1,6 @@
 ﻿using System;
 using ENode.Eventing;
+using ENode.Infrastructure;
 
 namespace Forum.Domain.Posts
 {
@@ -13,7 +14,7 @@ namespace Forum.Domain.Posts
         public string AuthorId { get; private set; }
 
         private PostCreatedEvent() { }
-        public PostCreatedEvent(Post post, string subject, string body, string sectionId, string authorId) : base(post)
+        public PostCreatedEvent(string subject, string body, string sectionId, string authorId)
         {
             Subject = subject;
             Body = body;

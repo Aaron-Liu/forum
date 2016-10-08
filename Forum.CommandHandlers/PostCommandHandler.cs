@@ -1,13 +1,10 @@
-﻿using ECommon.Components;
-using ENode.Commanding;
+﻿using ENode.Commanding;
 using Forum.Commands.Posts;
-using Forum.Domain;
 using Forum.Domain.Posts;
 using Forum.Domain.Replies;
 
 namespace Forum.CommandHandlers
 {
-    [Component]
     public class PostCommandHandler :
         ICommandHandler<CreatePostCommand>,
         ICommandHandler<UpdatePostCommand>,

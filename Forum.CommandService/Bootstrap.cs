@@ -77,21 +77,18 @@ namespace Forum.CommandService
             var assemblies = new[]
             {
                 Assembly.Load("Forum.Infrastructure"),
+                Assembly.Load("Forum.Commands"),
                 Assembly.Load("Forum.Domain"),
                 Assembly.Load("Forum.Domain.Dapper"),
                 Assembly.Load("Forum.CommandHandlers"),
                 Assembly.Load("Forum.CommandService")
             };
-            var setting = new ConfigurationSetting
-            {
-                SqlServerDefaultConnectionString = ConfigSettings.ConnectionString
-            };
+            var setting = new ConfigurationSetting(ConfigSettings.ENodeConnectionString);
 
             _enodeConfiguration = _ecommonConfiguration
                 .CreateENode(setting)
                 .RegisterENodeComponents()
                 .RegisterBusinessComponents(assemblies)
-                .RegisterAllTypeCodes()
                 .UseSqlServerLockService()
                 .UseSqlServerCommandStore()
                 .UseSqlServerEventStore()

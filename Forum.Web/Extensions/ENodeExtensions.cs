@@ -1,17 +1,9 @@
 ﻿using System.Net;
-using ECommon.Components;
-using ECommon.Utilities;
+using ECommon.Socketing;
 using ENode.Commanding;
 using ENode.Configurations;
 using ENode.EQueue;
-using ENode.EQueue.Commanding;
-using ENode.Infrastructure;
-using ENode.Infrastructure.Impl;
 using EQueue.Configurations;
-using Forum.Commands.Accounts;
-using Forum.Commands.Posts;
-using Forum.Commands.Replies;
-using Forum.Commands.Sections;
 
 namespace Forum.Web.Extensions
 {
@@ -19,25 +11,6 @@ namespace Forum.Web.Extensions
     {
         private static CommandService _commandService;
 
-        public static ENodeConfiguration RegisterAllTypeCodes(this ENodeConfiguration enodeConfiguration)
-        {
-            var provider = ObjectContainer.Resolve<ITypeCodeProvider>() as DefaultTypeCodeProvider;
-
-            //commands
-            provider.RegisterType<RegisterNewAccountCommand>(11000);
-
-            provider.RegisterType<CreateSectionCommand>(11100);
-            provider.RegisterType<ChangeSectionNameCommand>(11101);
-
-            provider.RegisterType<CreatePostCommand>(11200);
-            provider.RegisterType<UpdatePostCommand>(11201);
-            provider.RegisterType<AcceptNewReplyCommand>(11202);
-
-            provider.RegisterType<CreateReplyCommand>(11300);
-            provider.RegisterType<ChangeReplyBodyCommand>(11301);
-
-            return enodeConfiguration;
-        }
         public static ENodeConfiguration UseEQueue(this ENodeConfiguration enodeConfiguration)
         {
             var configuration = enodeConfiguration.GetCommonConfiguration();

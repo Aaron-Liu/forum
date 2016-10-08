@@ -8,7 +8,6 @@ using Forum.Infrastructure;
 
 namespace Forum.Denormalizers.Dapper
 {
-    [Component]
     public class ReplyDenormalizer : AbstractDenormalizer,
         IMessageHandler<ReplyCreatedEvent>,
         IMessageHandler<ReplyBodyChangedEvent>

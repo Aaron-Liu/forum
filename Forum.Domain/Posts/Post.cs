@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ENode.Domain;
+using ENode.Infrastructure;
 using Forum.Domain.Replies;
 using Forum.Infrastructure;
 
@@ -28,11 +29,11 @@ namespace Forum.Domain.Posts
             {
                 throw new Exception("帖子标题长度不能超过256");
             }
-            if (body.Length > 1000)
+            if (body.Length > 4000)
             {
-                throw new Exception("帖子内容长度不能超过1000");
+                throw new Exception("帖子内容长度不能超过4000");
             }
-            ApplyEvent(new PostCreatedEvent(this, subject, body, sectionId, authorId));
+            ApplyEvent(new PostCreatedEvent( subject, body, sectionId, authorId));
         }
 
         public void Update(string subject, string body)
@@ -43,11 +44,11 @@ namespace Forum.Domain.Posts
             {
                 throw new Exception("帖子标题长度不能超过256");
             }
-            if (body.Length > 1000)
+            if (body.Length > 4000)
             {
-                throw new Exception("帖子内容长度不能超过1000");
+                throw new Exception("帖子内容长度不能超过4000");
             }
-            ApplyEvent(new PostUpdatedEvent(this, subject, body));
+            ApplyEvent(new PostUpdatedEvent( subject, body));
         }
         public void AcceptNewReply(Reply reply)
         {
@@ -55,7 +56,7 @@ namespace Forum.Domain.Posts
 
             if (_replyStatisticInfo == null)
             {
-                ApplyEvent(new PostReplyStatisticInfoChangedEvent(this, new PostReplyStatisticInfo(
+                ApplyEvent(new PostReplyStatisticInfoChangedEvent(new PostReplyStatisticInfo(
                     reply.Id,
                     reply.GetAuthorId(),
                     reply.GetCreateTime(),
@@ -63,7 +64,7 @@ namespace Forum.Domain.Posts
             }
             else if (_replyStatisticInfo.LastReplyTime < reply.GetCreateTime())
             {
-                ApplyEvent(new PostReplyStatisticInfoChangedEvent(this, new PostReplyStatisticInfo(
+                ApplyEvent(new PostReplyStatisticInfoChangedEvent(new PostReplyStatisticInfo(
                     reply.Id,
                     reply.GetAuthorId(),
                     reply.GetCreateTime(),
@@ -71,7 +72,7 @@ namespace Forum.Domain.Posts
             }
             else
             {
-                ApplyEvent(new PostReplyStatisticInfoChangedEvent(this, new PostReplyStatisticInfo(
+                ApplyEvent(new PostReplyStatisticInfoChangedEvent(new PostReplyStatisticInfo(
                     _replyStatisticInfo.LastReplyId,
                     _replyStatisticInfo.LastReplyAuthorId,
                     _replyStatisticInfo.LastReplyTime,
@@ -82,7 +83,6 @@ namespace Forum.Domain.Posts
         private void Handle(PostCreatedEvent evnt)
         {
             _replyIds = new HashSet<string>();
-            _id = evnt.AggregateRootId;
             _subject = evnt.Subject;
             _body = evnt.Body;
             _sectionId = evnt.SectionId;
